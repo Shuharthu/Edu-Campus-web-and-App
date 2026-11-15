@@ -147,12 +147,12 @@ export default function WebsiteHomePage() {
             <img
               src={theme === 'dark' ? '/brand/smart-edu-logo-dark.svg' : '/brand/smart-edu-logo-light.svg'}
               alt="Smart EDU Logo"
-              className="h-28 sm:h-32 w-auto"
+              className="h-32 w-auto"
             />
           </Link>
 
           {/* Desktop Navigation Links (Tablet Landscape & Desktop) */}
-          <nav className="hidden md:flex items-center gap-20 lg:gap-28 text-xs font-medium text-[var(--se-text-secondary)]">
+          <nav className="hidden md:flex items-center gap-24 lg:gap-32 text-xs font-medium text-[var(--se-text-secondary)]">
             <a href="#campuses" className="hover:text-teal-400 transition-colors">Campuses</a>
             <a href="#features" className="hover:text-teal-400 transition-colors">Academic Suite</a>
             <a href="#governance" className="hover:text-teal-400 transition-colors">Governance & Security</a>
@@ -194,7 +194,7 @@ export default function WebsiteHomePage() {
 
                 {/* Quick Sign-In Dropdown Card (Mobile/Tablet Friendly Viewport Anchor) */}
                 {loginToggleOpen && (
-                  <div className="fixed sm:absolute inset-x-16 sm:inset-x-auto sm:right-0 top-68 sm:top-auto sm:mt-8 sm:w-84 rounded-2xl border border-[var(--se-border)] bg-[var(--se-bg-card)] p-16 sm:p-20 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
+                  <div className="fixed sm:absolute inset-x-16 sm:inset-x-auto sm:right-0 top-[68px] sm:top-auto sm:mt-8 sm:w-[320px] rounded-2xl border border-[var(--se-border)] bg-[var(--se-bg-card)] p-16 sm:p-24 shadow-2xl z-50 animate-in fade-in zoom-in-95 duration-200">
                     <div className="flex items-center justify-between pb-8 border-b border-[var(--se-border)] mb-12">
                       <span className="caption-4 font-semibold text-[var(--se-text-primary)]">
                         Portal Quick Sign In
@@ -214,7 +214,7 @@ export default function WebsiteHomePage() {
                       </div>
                     )}
 
-                    <form onSubmit={handleHeaderLogin} className="space-y-10">
+                    <form onSubmit={handleHeaderLogin} className="space-y-12">
                       <div>
                         <label className="caption-5 mb-4 block text-[var(--se-text-secondary)]">
                           University Email
@@ -225,7 +225,7 @@ export default function WebsiteHomePage() {
                           value={headerEmail}
                           onChange={(e) => setHeaderEmail(e.target.value)}
                           placeholder="name@university.edu"
-                          className="h-36 text-xs w-full"
+                          className="h-32 text-xs w-full"
                         />
                       </div>
                       <div>
@@ -238,19 +238,19 @@ export default function WebsiteHomePage() {
                           value={headerPassword}
                           onChange={(e) => setHeaderPassword(e.target.value)}
                           placeholder="••••••••"
-                          className="h-36 text-xs w-full"
+                          className="h-32 text-xs w-full"
                         />
                       </div>
                       <Button
                         type="submit"
                         disabled={headerSubmitting}
-                        className="w-full h-36 text-xs font-semibold bg-teal-500 hover:bg-teal-600 text-slate-950"
+                        className="w-full h-32 text-xs font-semibold bg-teal-500 hover:bg-teal-600 text-slate-950"
                       >
                         {headerSubmitting ? 'Authenticating...' : 'Sign In'}
                       </Button>
                     </form>
 
-                    <div className="mt-14 pt-10 border-t border-[var(--se-border)] flex items-center justify-between text-[11px]">
+                    <div className="mt-16 pt-12 border-t border-[var(--se-border)] flex items-center justify-between text-[11px]">
                       <Link
                         href="/sign-in?mode=signup"
                         onClick={() => setLoginToggleOpen(false)}
@@ -275,7 +275,7 @@ export default function WebsiteHomePage() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen((v) => !v)}
-              className="md:hidden flex h-36 w-36 items-center justify-center rounded-lg border border-[var(--se-border)] bg-[var(--se-bg-elevated)] text-[var(--se-text-primary)] focus:outline-none"
+              className="md:hidden flex h-32 w-32 items-center justify-center rounded-lg border border-[var(--se-border)] bg-[var(--se-bg-elevated)] text-[var(--se-text-primary)] focus:outline-none"
               aria-label="Toggle navigation menu"
             >
               {mobileMenuOpen ? <X size={20} weight="bold" /> : <List size={20} weight="bold" />}
@@ -285,39 +285,39 @@ export default function WebsiteHomePage() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-b border-[var(--se-border)] bg-[var(--se-bg-card)]/95 px-20 py-20 backdrop-blur-xl animate-in slide-in-from-top-4 duration-300">
-            <nav className="flex flex-col space-y-14 text-sm font-medium">
+          <div className="md:hidden border-b border-[var(--se-border)] bg-[var(--se-bg-card)]/95 px-24 py-24 backdrop-blur-xl animate-in slide-in-from-top-4 duration-300">
+            <nav className="flex flex-col space-y-16 text-sm font-medium">
               <a
                 href="#campuses"
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-6 text-[var(--se-text-primary)] hover:text-teal-400 transition-colors"
+                className="py-8 text-[var(--se-text-primary)] hover:text-teal-400 transition-colors"
               >
                 Campus Infrastructure
               </a>
               <a
                 href="#features"
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-6 text-[var(--se-text-primary)] hover:text-teal-400 transition-colors"
+                className="py-8 text-[var(--se-text-primary)] hover:text-teal-400 transition-colors"
               >
                 Academic Suite
               </a>
               <a
                 href="#governance"
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-6 text-[var(--se-text-primary)] hover:text-teal-400 transition-colors"
+                className="py-8 text-[var(--se-text-primary)] hover:text-teal-400 transition-colors"
               >
                 Governance & Compliance
               </a>
               <a
                 href="#faq"
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-6 text-[var(--se-text-primary)] hover:text-teal-400 transition-colors"
+                className="py-8 text-[var(--se-text-primary)] hover:text-teal-400 transition-colors"
               >
                 Frequently Asked Questions
               </a>
             </nav>
 
-            <div className="mt-20 pt-16 border-t border-[var(--se-border)] grid grid-cols-2 gap-10">
+            <div className="mt-24 pt-16 border-t border-[var(--se-border)] grid grid-cols-2 gap-12">
               <Button
                 variant="secondary"
                 size="sm"
@@ -350,7 +350,7 @@ export default function WebsiteHomePage() {
         <div className="pointer-events-none absolute -top-96 left-1/2 -translate-x-1/2 w-[700px] h-[450px] bg-gradient-to-tr from-teal-500/10 via-emerald-500/5 to-transparent blur-3xl rounded-full -z-10" />
 
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-28 lg:gap-36 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-24 lg:gap-32 items-center">
             
             {/* Left Column: Outcome, Value Proposition & Actions */}
             <div className="lg:col-span-7 space-y-16 sm:space-y-24 text-left">
@@ -371,7 +371,7 @@ export default function WebsiteHomePage() {
               </p>
 
               {/* Action Buttons (Full width on mobile, auto on sm+) */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-10 sm:gap-14 pt-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-12 sm:gap-16 pt-4">
                 <Button
                   size="lg"
                   onClick={() => router.push('/sign-in')}
@@ -390,7 +390,7 @@ export default function WebsiteHomePage() {
               </div>
 
               {/* Institutional Trust Metrics Strip */}
-              <div className="pt-16 sm:pt-20 border-t border-[var(--se-border)] grid grid-cols-3 gap-12 sm:gap-16 max-w-lg">
+              <div className="pt-16 sm:pt-24 border-t border-[var(--se-border)] grid grid-cols-3 gap-12 sm:gap-16 max-w-lg">
                 <div>
                   <div className="text-lg sm:text-2xl font-semibold text-[var(--se-text-primary)]">600+</div>
                   <div className="text-[11px] sm:text-xs text-[var(--se-text-secondary)]">Enrolled Students</div>
@@ -407,14 +407,14 @@ export default function WebsiteHomePage() {
             </div>
 
             {/* Right Column: Campus Visual Card (No Horizontal Overflow) */}
-            <div className="lg:col-span-5 relative mt-8 lg:mt-0">
-              {/* Outer Card Container */}
-              <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/15 bg-[var(--se-bg-card)] shadow-2xl">
+            <div className="lg:col-span-5 relative mt-16 lg:mt-0">
+              {/* Outer Card Container with Guaranteed Responsive Pixel Height */}
+              <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-white/15 bg-[var(--se-bg-card)] shadow-2xl h-[380px] sm:h-[420px] lg:h-[440px]">
                 {/* Campus Image */}
                 <img
                   src="/images/campus-hero.jpg"
                   alt="Modern university campus building with landscaped entrance"
-                  className="w-full h-64 sm:h-84 lg:h-[400px] object-cover"
+                  className="w-full h-full object-cover"
                 />
 
                 {/* Gradient Contrast Overlay */}
@@ -422,18 +422,18 @@ export default function WebsiteHomePage() {
 
                 {/* Top Floating Badge */}
                 <div className="absolute top-12 left-12 right-12 flex items-center justify-between pointer-events-none">
-                  <div className="inline-flex items-center gap-6 rounded-full bg-slate-950/85 backdrop-blur-md border border-white/15 px-10 py-5 text-[11px] text-white shadow-md">
+                  <div className="inline-flex items-center gap-6 rounded-full bg-slate-950/85 backdrop-blur-md border border-white/15 px-10 py-4 text-[11px] text-white shadow-md">
                     <span className="flex h-6 w-6 rounded-full bg-emerald-400" />
                     <span className="font-semibold">Main Campus</span>
                     <span className="text-slate-400 hidden sm:inline">• Central Quad</span>
                   </div>
-                  <div className="rounded-full bg-slate-950/80 backdrop-blur-md border border-white/10 px-8 py-3 text-[10px] font-medium text-slate-300">
+                  <div className="rounded-full bg-slate-950/80 backdrop-blur-md border border-white/10 px-8 py-4 text-[10px] font-medium text-slate-300">
                     Academic District
                   </div>
                 </div>
 
                 {/* Bottom Overlay Information Box */}
-                <div className="absolute bottom-12 left-12 right-12 rounded-xl sm:rounded-2xl bg-slate-950/85 backdrop-blur-md border border-white/15 p-12 sm:p-14 text-white shadow-xl">
+                <div className="absolute bottom-12 left-12 right-12 rounded-xl sm:rounded-2xl bg-slate-950/85 backdrop-blur-md border border-white/15 p-12 sm:p-16 text-white shadow-xl">
                   <div className="flex items-center justify-between mb-8">
                     <div className="flex items-center gap-8 min-w-0">
                       <div className="p-6 rounded-lg bg-teal-500/20 text-teal-300 border border-teal-500/30 shrink-0">
@@ -449,7 +449,7 @@ export default function WebsiteHomePage() {
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/10 text-center">
+                  <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/10 text-center">
                     <div>
                       <div className="text-xs sm:text-sm font-semibold text-white">64</div>
                       <div className="text-[9px] sm:text-[10px] text-slate-400">Classrooms</div>
@@ -467,8 +467,8 @@ export default function WebsiteHomePage() {
               </div>
 
               {/* Sub-Card Institutional Badge (Contained safely without overflow) */}
-              <div className="mt-12 flex items-center gap-10 rounded-xl bg-[var(--se-bg-card)] border border-[var(--se-border)] p-12 shadow-md">
-                <div className="flex h-36 w-36 items-center justify-center rounded-lg bg-teal-500/10 text-teal-400 shrink-0">
+              <div className="mt-12 flex items-center gap-12 rounded-xl bg-[var(--se-bg-card)] border border-[var(--se-border)] p-12 shadow-md">
+                <div className="flex h-32 w-32 items-center justify-center rounded-lg bg-teal-500/10 text-teal-400 shrink-0">
                   <ShieldCheck size={20} weight="bold" />
                 </div>
                 <div>
@@ -520,10 +520,10 @@ export default function WebsiteHomePage() {
           {(() => {
             const c = campusData[activeCampusTab];
             return (
-              <Card className="p-20 sm:p-28 max-w-4xl mx-auto space-y-20 border-teal-500/30">
+              <Card className="p-16 sm:p-24 max-w-4xl mx-auto space-y-16 border-teal-500/30">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-12">
                   <div className="flex items-center gap-12">
-                    <div className="flex h-44 w-44 items-center justify-center rounded-xl bg-teal-500/10 text-teal-400 shrink-0">
+                    <div className="flex h-48 w-48 items-center justify-center rounded-xl bg-teal-500/10 text-teal-400 shrink-0">
                       <Buildings size={24} weight="duotone" />
                     </div>
                     <div>
@@ -537,7 +537,7 @@ export default function WebsiteHomePage() {
                 <p className="body-5 text-xs sm:text-sm text-[var(--se-text-secondary)] leading-relaxed">{c.description}</p>
 
                 {/* 4 Professional Stat Boxes */}
-                <div className="grid grid-cols-2 gap-10 sm:grid-cols-4 text-center">
+                <div className="grid grid-cols-2 gap-12 sm:grid-cols-4 text-center">
                   <div className="rounded-xl border border-[var(--se-border)] bg-[var(--se-bg-card)] p-12">
                     <span className="caption-5 text-[11px] text-[var(--se-text-muted)]">Academic Departments</span>
                     <p className="heading-5 mt-4 text-base sm:text-xl font-semibold text-[var(--se-text-primary)]">{c.departments}</p>
@@ -557,7 +557,7 @@ export default function WebsiteHomePage() {
                 </div>
 
                 {/* Metadata Row */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-10 border-t border-[var(--se-border)] pt-16 text-xs text-[var(--se-text-muted)]">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-12 border-t border-[var(--se-border)] pt-16 text-xs text-[var(--se-text-muted)]">
                   <div className="flex items-center gap-6">
                     <MapPin size={16} className="text-teal-400 shrink-0" />
                     <span>{c.location}</span>
@@ -587,7 +587,7 @@ export default function WebsiteHomePage() {
 
           <div className="grid grid-cols-1 gap-16 md:grid-cols-3">
             {/* Pillar 1 */}
-            <Card className="p-20 sm:p-24 space-y-12 border-[var(--se-border)] hover:border-teal-500/40 transition-colors">
+            <Card className="p-16 sm:p-24 space-y-12 border-[var(--se-border)] hover:border-teal-500/40 transition-colors">
               <div className="flex h-40 w-40 items-center justify-center rounded-xl bg-teal-500/10 text-teal-400">
                 <CalendarCheck size={22} weight="duotone" />
               </div>
@@ -600,7 +600,7 @@ export default function WebsiteHomePage() {
             </Card>
 
             {/* Pillar 2 */}
-            <Card className="p-20 sm:p-24 space-y-12 border-[var(--se-border)] hover:border-teal-500/40 transition-colors">
+            <Card className="p-16 sm:p-24 space-y-12 border-[var(--se-border)] hover:border-teal-500/40 transition-colors">
               <div className="flex h-40 w-40 items-center justify-center rounded-xl bg-teal-500/10 text-teal-400">
                 <UserCheck size={22} weight="duotone" />
               </div>
@@ -613,7 +613,7 @@ export default function WebsiteHomePage() {
             </Card>
 
             {/* Pillar 3 */}
-            <Card id="governance" className="p-20 sm:p-24 space-y-12 border-[var(--se-border)] hover:border-teal-500/40 transition-colors">
+            <Card id="governance" className="p-16 sm:p-24 space-y-12 border-[var(--se-border)] hover:border-teal-500/40 transition-colors">
               <div className="flex h-40 w-40 items-center justify-center rounded-xl bg-teal-500/10 text-teal-400">
                 <ShieldCheck size={22} weight="duotone" />
               </div>
@@ -664,7 +664,7 @@ export default function WebsiteHomePage() {
                   <button
                     type="button"
                     onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                    className="w-full flex items-center justify-between p-16 sm:p-20 text-left focus:outline-none"
+                    className="w-full flex items-center justify-between p-16 sm:p-24 text-left focus:outline-none"
                   >
                     <span className="text-xs sm:text-sm font-semibold text-[var(--se-text-primary)] pr-12">
                       {item.q}
@@ -678,7 +678,7 @@ export default function WebsiteHomePage() {
                   </button>
 
                   {isOpen && (
-                    <div className="px-16 pb-16 sm:px-20 sm:pb-20 pt-0 text-xs sm:text-sm text-[var(--se-text-secondary)] leading-relaxed border-t border-[var(--se-border)] mt-4">
+                    <div className="px-16 pb-16 sm:px-24 sm:pb-24 pt-0 text-xs sm:text-sm text-[var(--se-text-secondary)] leading-relaxed border-t border-[var(--se-border)] mt-4">
                       <p className="pt-12">{item.a}</p>
                     </div>
                   )}
@@ -691,7 +691,7 @@ export default function WebsiteHomePage() {
 
       {/* Bottom Conversion Action Banner */}
       <section className="px-16 pb-48 sm:px-24 lg:px-32">
-        <div className="mx-auto max-w-5xl rounded-2xl sm:rounded-3xl border border-teal-500/30 bg-gradient-to-b from-teal-950/20 to-[var(--se-bg-card)] p-24 sm:p-36 text-center space-y-16">
+        <div className="mx-auto max-w-5xl rounded-2xl sm:rounded-3xl border border-teal-500/30 bg-gradient-to-b from-teal-950/20 to-[var(--se-bg-card)] p-24 sm:p-32 text-center space-y-16">
           <h2 className="heading-4 text-xl sm:text-3xl font-semibold text-[var(--se-text-primary)]">
             Ready to Connect Your University Campus?
           </h2>
@@ -727,7 +727,7 @@ export default function WebsiteHomePage() {
               <img
                 src={theme === 'dark' ? '/brand/smart-edu-logo-dark.svg' : '/brand/smart-edu-logo-light.svg'}
                 alt="Smart EDU"
-                className="h-28 w-auto"
+                className="h-32 w-auto"
               />
               <p className="text-xs text-[var(--se-text-secondary)] leading-relaxed">
                 Multi-campus higher education operating system unifying academic planning, admissions, and student life.
@@ -772,7 +772,7 @@ export default function WebsiteHomePage() {
             </div>
           </div>
 
-          <div className="pt-16 border-t border-[var(--se-border)] flex flex-col sm:flex-row items-center justify-between gap-10 text-[11px] text-[var(--se-text-muted)]">
+          <div className="pt-16 border-t border-[var(--se-border)] flex flex-col sm:flex-row items-center justify-between gap-12 text-[11px] text-[var(--se-text-muted)]">
             <div>© 2026 Smart EDU. All rights reserved.</div>
             <div className="flex items-center gap-16">
               <span>Privacy Policy</span>

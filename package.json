@@ -1,0 +1,33 @@
+{
+  "name": "smart-edu",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "scripts": {
+    "tokens:build": "node packages/ui-tokens/scripts/build-tokens.mjs",
+    "tokens:check": "node packages/ui-tokens/scripts/build-tokens.mjs --check && node scripts/check-flutter-tokens.mjs",
+    "openapi:export": "pnpm --filter @smart-edu/api openapi:export",
+    "openapi:generate": "node scripts/generate-clients.mjs",
+    "openapi:check": "node scripts/check-openapi-drift.mjs",
+    "dev": "turbo dev",
+    "dev:api": "pnpm --filter @smart-edu/api dev",
+    "dev:web": "pnpm --filter @smart-edu/web dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "db:generate": "pnpm --filter @smart-edu/api db:generate",
+    "db:migrate": "pnpm --filter @smart-edu/api db:migrate",
+    "db:push": "pnpm --filter @smart-edu/api db:push",
+    "db:rls": "pnpm --filter @smart-edu/api db:rls",
+    "db:seed": "pnpm --filter @smart-edu/api db:seed"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "turbo": "^2.4.4",
+    "typescript": "^5.7.3"
+  }
+}

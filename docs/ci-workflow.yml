@@ -1,0 +1,70 @@
+name: Smart EDU CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify-ts-monorepo:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: smartedu
+          POSTGRES_PASSWORD: smartedu_dev_pw
+          POSTGRES_DB: smartedu
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://smartedu:smartedu_dev_pw@localhost:5432/smartedu?schema=public
+      DIRECT_URL: postgresql://smartedu:smartedu_dev_pw@localhost:5432/smartedu?schema=public
+      REDIS_URL: redis://localhost:6379
+      JWT_ACCESS_SECRET: ci_jwt_access_secret_minimum_32_characters_long
+      JWT_REFRESH_SECRET: ci_jwt_refresh_secret_minimum_32_characters_long
+      MFA_ENCRYPTION_KEY: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile || pnpm install
+      - run: pnpm tokens:check
+      - run: pnpm --filter @smart-edu/api db:generate
+      - run: pnpm --filter @smart-edu/api db:push
+      - run: pnpm --filter @smart-edu/api db:seed
+      - run: pnpm openapi:export
+      - run: pnpm openapi:check
+      - run: pnpm build
+      - run: pnpm typecheck
+      - run: pnpm --filter @smart-edu/api test
+      - run: pnpm --filter @smart-edu/api test:e2e
+
+  verify-flutter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: dart pub global activate melos
+      - run: cd apps/mobile && flutter pub get && flutter analyze --fatal-infos && flutter test

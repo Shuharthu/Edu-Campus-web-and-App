@@ -1,0 +1,15 @@
+default_platform(:android)
+
+platform :android do
+  desc "Build release AAB for Google Play"
+  lane :build_release do
+    sh("flutter build appbundle --flavor production -t lib/main_production.dart --release")
+  end
+end
+
+platform :ios do
+  desc "Build release IPA for App Store / TestFlight"
+  lane :build_release do
+    sh("flutter build ipa --flavor production -t lib/main_production.dart --release")
+  end
+end

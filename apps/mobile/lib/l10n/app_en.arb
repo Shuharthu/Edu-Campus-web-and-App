@@ -1,0 +1,22 @@
+{
+  "@@locale": "en",
+  "appTitle": "Smart EDU",
+  "tagline": "One campus, in every pocket and on every desk.",
+  "signInHeading": "Sign in to Smart EDU",
+  "signInSubtitle": "Use your university email to see your classes, results and fees.",
+  "universityEmailLabel": "University email",
+  "passwordLabel": "Password",
+  "signInButton": "Sign in",
+  "continueWithUniversity": "Continue with university account",
+  "mfaHeading": "Enter verification code",
+  "mfaSubtitle": "Staff accounts require a 6 digit authenticator code.",
+  "verifyCodeButton": "Verify code",
+  "switchRoleTitle": "Switch active role",
+  "navHome": "Home",
+  "navSchedule": "Schedule",
+  "navCourses": "Courses",
+  "navInbox": "Inbox",
+  "navProfile": "Profile",
+  "offlineCacheSynced": "Offline cache ready",
+  "signOutButton": "Sign out"
+}

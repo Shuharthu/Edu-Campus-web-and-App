@@ -1,0 +1,41 @@
+@import '../../../../packages/ui-tokens/dist/tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: var(--font-geist-sans), 'Geist', system-ui, sans-serif;
+    font-style: normal;
+  }
+
+  body {
+    background-color: var(--se-bg-canvas);
+    color: var(--se-text-primary);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+    font-style: normal;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+.tabular-mono {
+  font-family: var(--font-geist-mono), 'Geist Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

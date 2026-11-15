@@ -1,0 +1,281 @@
+{
+  "info": {
+    "name": "Smart EDU API — Complete Enterprise Collection",
+    "description": "Production Postman / Bruno collection for Smart EDU University Management System backed exclusively by Supabase PostgreSQL.",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:4000/api/v1" },
+    { "key": "accessToken", "value": "" },
+    { "key": "mfaToken", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "01. Auth & MFA",
+      "item": [
+        {
+          "name": "POST Login",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/login",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"tariq.mahmud@university.edu\",\n  \"password\": \"SmartEdu#2026\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Verify MFA",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/auth/mfa/verify",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mfaToken\": \"{{mfaToken}}\",\n  \"code\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "GET Me (Profile & Permissions)",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/auth/me",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. Academics & Timetable",
+      "item": [
+        {
+          "name": "GET Campuses",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/academic/campuses",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "GET Departments",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/academic/departments",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "GET Timetable Clash Validation",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/academic/timetable/validate",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"roomId\": \"{{roomId}}\",\n  \"dayOfWeek\": \"MONDAY\",\n  \"startTime\": \"09:00\",\n  \"endTime\": \"10:30\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. Attendance & Check-in",
+      "item": [
+        {
+          "name": "POST Initialize Rotating QR Session",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/attendance/session",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "POST Student Check-in",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/attendance/check-in",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"qrCode\": \"SMART_EDU_ATT_CSE204_...\",\n  \"latitude\": 23.8103,\n  \"longitude\": 90.4125\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. Grades & Examinations",
+      "item": [
+        {
+          "name": "GET Published Results",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/grades/results",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "GET Exam Seating Matrix",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/exams/seating-matrix",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05. Finance & Invoicing",
+      "item": [
+        {
+          "name": "GET Student Invoices",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/finance/invoices",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "POST Process Installment Payment",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/finance/pay-installment",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"installmentId\": \"{{installmentId}}\",\n  \"paymentMethod\": \"CARD\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06. Library, Operations & Career",
+      "item": [
+        {
+          "name": "GET Library Catalog",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/library/books",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "GET Campus Facilities & Transit",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/operations/overview",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "GET Career Postings & Applications",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/career/postings",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07. Analytics & Smart Assistant",
+      "item": [
+        {
+          "name": "GET Institutional Overview",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/overview",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "GET At-Risk Students",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/analytics/at-risk",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "POST Ask Grounded Assistant",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/assistant/ask",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"Where is my exam seating hall?\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08. Compliance & Security",
+      "item": [
+        {
+          "name": "GET OWASP Top 10 Hardened Posture",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/compliance/owasp-posture",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        },
+        {
+          "name": "POST FERPA & GDPR Data Portability Export",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/compliance/export",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Annual Student Statutory Educational Record Access\"\n}"
+            }
+          }
+        },
+        {
+          "name": "POST Submit Erasure Request",
+          "request": {
+            "method": "POST",
+            "url": "{{baseUrl}}/compliance/erasure-request",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"Graduated alumnus requesting non-mandatory telemetry purge\"\n}"
+            }
+          }
+        },
+        {
+          "name": "GET Immutable Audit Trail",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/compliance/audit-trail?limit=50",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }]
+          }
+        }
+      ]
+    }
+  ]
+}

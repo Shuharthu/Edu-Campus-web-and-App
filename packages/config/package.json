@@ -1,0 +1,11 @@
+{
+  "name": "@smart-edu/config",
+  "version": "0.1.0",
+  "private": true,
+  "files": [
+    "tsconfig.base.json",
+    "tsconfig.nextjs.json",
+    "tsconfig.nestjs.json",
+    "prettier.config.json"
+  ]
+}

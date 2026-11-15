@@ -1,0 +1,36 @@
+enum AppFlavor { dev, staging, production }
+
+class FlavorConfig {
+  final AppFlavor flavor;
+  final String apiBaseUrl;
+  final String wsUrl;
+  final String oidcRedirectUri;
+
+  const FlavorConfig({
+    required this.flavor,
+    required this.apiBaseUrl,
+    required this.wsUrl,
+    required this.oidcRedirectUri,
+  });
+
+  static const dev = FlavorConfig(
+    flavor: AppFlavor.dev,
+    apiBaseUrl: 'http://10.0.2.2:4000/api/v1',
+    wsUrl: 'ws://10.0.2.2:4000/ws',
+    oidcRedirectUri: 'smartedu.dev://auth/callback',
+  );
+
+  static const staging = FlavorConfig(
+    flavor: AppFlavor.staging,
+    apiBaseUrl: 'https://staging-api.{{institution_domain}}/api/v1',
+    wsUrl: 'wss://staging-api.{{institution_domain}}/ws',
+    oidcRedirectUri: 'smartedu.staging://auth/callback',
+  );
+
+  static const production = FlavorConfig(
+    flavor: AppFlavor.production,
+    apiBaseUrl: 'https://api.{{institution_domain}}/api/v1',
+    wsUrl: 'wss://api.{{institution_domain}}/ws',
+    oidcRedirectUri: 'smartedu://auth/callback',
+  );
+}

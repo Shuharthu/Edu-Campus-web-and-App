@@ -1,0 +1,20 @@
+name: smart_edu
+
+packages:
+  - apps/mobile
+  - packages/api-client-dart
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
+
+scripts:
+  analyze:
+    run: melos exec -- flutter analyze --fatal-infos
+    description: Run Flutter/Dart static analysis across all Dart packages.
+  test:
+    run: melos exec --dir-exists="test" -- flutter test
+    description: Run unit, widget, and golden tests across Dart packages.
+  format:check:
+    run: melos exec -- dart format --output=none --set-exit-if-changed .
+    description: Verify Dart formatting.

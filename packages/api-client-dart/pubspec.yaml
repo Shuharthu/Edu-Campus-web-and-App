@@ -1,0 +1,10 @@
+name: smart_edu_api_client
+description: Generated Dart/Dio API client for Smart EDU from OpenAPI spec.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dependencies:
+  dio: ^5.7.0

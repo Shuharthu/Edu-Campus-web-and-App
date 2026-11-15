@@ -1,0 +1,16 @@
+{
+  "name": "@smart-edu/ui-tokens",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/tailwind.preset.cjs",
+  "files": [
+    "tokens.json",
+    "dist/"
+  ],
+  "scripts": {
+    "build": "node scripts/build-tokens.mjs",
+    "check": "node scripts/build-tokens.mjs --check",
+    "lint": "node scripts/build-tokens.mjs --check",
+    "typecheck": "node scripts/build-tokens.mjs --check"
+  }
+}

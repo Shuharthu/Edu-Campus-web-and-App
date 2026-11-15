@@ -1,0 +1,35 @@
+# Dependencies & build artifacts
+node_modules/
+.pnpm-store/
+.turbo/
+dist/
+build/
+.next/
+out/
+coverage/
+
+# Environment & local state
+.env
+.env.local
+.env.*.local
+.local/
+*.log
+*.tsbuildinfo
+
+# Flutter / Dart
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+apps/mobile/.dart_tool/
+apps/mobile/build/
+apps/mobile/.flutter-plugins
+apps/mobile/.flutter-plugins-dependencies
+apps/mobile/ios/Pods/
+apps/mobile/android/.gradle/
+packages/api-client-dart/.dart_tool/
+
+# Testing & screenshots
+playwright-report/
+test-results/
+.auth/

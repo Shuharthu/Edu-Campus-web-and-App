@@ -1,0 +1,22 @@
+{
+  "@@locale": "ar",
+  "appTitle": "Smart EDU",
+  "tagline": "حرم جامعي واحد في كل جيب وعلى كل مكتب.",
+  "signInHeading": "تسجيل الدخول إلى Smart EDU",
+  "signInSubtitle": "استخدم بريدك الجامعي لمتابعة محاضراتك ونتائجك ورسومك.",
+  "universityEmailLabel": "البريد الجامعي",
+  "passwordLabel": "كلمة المرور",
+  "signInButton": "تسجيل الدخول",
+  "continueWithUniversity": "المتابعة بالحساب الجامعي",
+  "mfaHeading": "أدخل رمز التحقق",
+  "mfaSubtitle": "تتطلب حسابات الموظفين رمز تحقق من ستة أرقام.",
+  "verifyCodeButton": "تأكيد الرمز",
+  "switchRoleTitle": "تبديل الدور النشط",
+  "navHome": "الرئيسية",
+  "navSchedule": "الجدول",
+  "navCourses": "المقررات",
+  "navInbox": "الرسائل",
+  "navProfile": "الملف",
+  "offlineCacheSynced": "التخزين المؤقت جاهز",
+  "signOutButton": "تسجيل الخروج"
+}

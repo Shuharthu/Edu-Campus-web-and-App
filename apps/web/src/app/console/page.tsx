@@ -61,7 +61,7 @@ export default function ConsoleOverviewPage() {
   }
 
   const firstName = me?.user.fullName.split(' ')[0] ?? 'User';
-  const roleLabel = data.roleSlug.replace(/_/g, ' ');
+  const roleLabel = (data?.roleSlug || me?.activeContext.roleSlug || 'Admin').replace(/_/g, ' ');
 
   return (
     <div className="space-y-24">

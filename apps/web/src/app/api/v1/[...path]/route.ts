@@ -403,8 +403,8 @@ export async function POST(
       return NextResponse.json(newCampus);
     }
 
-    // /api/v1/rbac/roles
-    if (subpath === 'rbac/roles') {
+    // /api/v1/rbac/roles or /api/v1/roles
+    if (subpath === 'rbac/roles' || subpath === 'roles') {
       const newRole = {
         id: 'role-' + Date.now(),
         slug: String(body.slug || 'custom-role'),
@@ -421,8 +421,8 @@ export async function POST(
       return NextResponse.json(newRole);
     }
 
-    // /api/v1/rbac/assign-role
-    if (subpath === 'rbac/assign-role') {
+    // /api/v1/rbac/assign-role or /api/v1/user-roles
+    if (subpath === 'rbac/assign-role' || subpath === 'user-roles') {
       const selectedCampus = campuses.find((c) => c.id === body.campusId) || campuses[0];
       const matchedRole = rolesList.find((r) => r.id === body.roleId);
       const assignment: UserAssignment = {
@@ -445,9 +445,13 @@ export async function POST(
       return NextResponse.json(assignment);
     }
 
-    // /api/v1/rbac/approvals/:id/decide
-    if (subpath.startsWith('rbac/approvals/') && subpath.endsWith('/decide')) {
-      const id = subpath.split('/')[2];
+    // /api/v1/rbac/approvals/:id/decide or /api/v1/approvals/:id/decide
+    if (
+      (subpath.startsWith('rbac/approvals/') || subpath.startsWith('approvals/')) &&
+      subpath.endsWith('/decide')
+    ) {
+      const parts = subpath.split('/');
+      const id = parts[parts.length - 2];
       rbacApprovals = rbacApprovals.filter((a) => a.id !== id);
       return NextResponse.json({ success: true, message: 'Decision recorded' });
     }
@@ -494,8 +498,8 @@ export async function GET(
     return NextResponse.json(ADMIN_ME_DATA);
   }
 
-  // /api/v1/admin/dashboard-summary
-  if (subpath === 'admin/dashboard-summary') {
+  // /api/v1/admin/dashboard-summary or /api/v1/dashboard/summary
+  if (subpath === 'admin/dashboard-summary' || subpath === 'dashboard/summary') {
     return NextResponse.json({
       roleTier: 'ADMIN',
       roleSlug: 'admin',
@@ -543,13 +547,13 @@ export async function GET(
     return NextResponse.json(campuses);
   }
 
-  // /api/v1/admin/institution
-  if (subpath === 'admin/institution') {
+  // /api/v1/admin/institution or /api/v1/institutions/current
+  if (subpath === 'admin/institution' || subpath === 'institutions/current') {
     return NextResponse.json(institutionData);
   }
 
-  // /api/v1/admin/feature-flags
-  if (subpath === 'admin/feature-flags') {
+  // /api/v1/admin/feature-flags or /api/v1/feature-flags
+  if (subpath === 'admin/feature-flags' || subpath === 'feature-flags') {
     return NextResponse.json(featureFlags);
   }
 
@@ -558,23 +562,23 @@ export async function GET(
     return NextResponse.json(activeDevices);
   }
 
-  // /api/v1/rbac/roles
-  if (subpath === 'rbac/roles') {
+  // /api/v1/rbac/roles or /api/v1/roles
+  if (subpath === 'rbac/roles' || subpath === 'roles') {
     return NextResponse.json(rolesList);
   }
 
-  // /api/v1/rbac/permissions
-  if (subpath === 'rbac/permissions') {
+  // /api/v1/rbac/permissions or /api/v1/permissions
+  if (subpath === 'rbac/permissions' || subpath === 'permissions') {
     return NextResponse.json(ALL_PERMISSIONS);
   }
 
-  // /api/v1/rbac/user-roles
-  if (subpath === 'rbac/user-roles') {
+  // /api/v1/rbac/user-roles or /api/v1/user-roles
+  if (subpath === 'rbac/user-roles' || subpath === 'user-roles') {
     return NextResponse.json(userRoleAssignments);
   }
 
-  // /api/v1/rbac/users
-  if (subpath === 'rbac/users') {
+  // /api/v1/rbac/users or /api/v1/users/directory
+  if (subpath === 'rbac/users' || subpath === 'users/directory') {
     return NextResponse.json([
       { id: '2f76fe37-0b58-4239-bd7c-3270e58dde4a', fullName: 'System Administrator', email: 'admin@university.edu' },
       { id: 'usr-101', fullName: 'Dr. Sarah Connor', email: 's.connor@university.edu' },
@@ -582,8 +586,8 @@ export async function GET(
     ]);
   }
 
-  // /api/v1/rbac/approvals
-  if (subpath === 'rbac/approvals') {
+  // /api/v1/rbac/approvals or /api/v1/approvals
+  if (subpath === 'rbac/approvals' || subpath === 'approvals') {
     return NextResponse.json(rbacApprovals);
   }
 
@@ -658,15 +662,15 @@ export async function PATCH(
   try {
     const body = await req.json().catch(() => ({}));
 
-    // /api/v1/admin/institution
-    if (subpath === 'admin/institution') {
+    // /api/v1/admin/institution or /api/v1/institutions/current
+    if (subpath === 'admin/institution' || subpath === 'institutions/current') {
       institutionData = { ...institutionData, ...body };
       return NextResponse.json(institutionData);
     }
 
-    // /api/v1/admin/feature-flags/:key
-    if (subpath.startsWith('admin/feature-flags/')) {
-      const key = subpath.replace('admin/feature-flags/', '');
+    // /api/v1/admin/feature-flags/:key or /api/v1/feature-flags/:key
+    if (subpath.startsWith('admin/feature-flags/') || subpath.startsWith('feature-flags/')) {
+      const key = subpath.replace('admin/feature-flags/', '').replace('feature-flags/', '');
       const flag = featureFlags.find((f) => f.key === key);
       if (flag) {
         flag.enabled = Boolean(body.enabled);
@@ -698,9 +702,9 @@ export async function DELETE(
     return NextResponse.json({ success: true });
   }
 
-  // /api/v1/rbac/assignments/:id
-  if (subpath.startsWith('rbac/assignments/')) {
-    const id = subpath.replace('rbac/assignments/', '');
+  // /api/v1/rbac/assignments/:id or /api/v1/user-roles/:id
+  if (subpath.startsWith('rbac/assignments/') || subpath.startsWith('user-roles/')) {
+    const id = subpath.replace('rbac/assignments/', '').replace('user-roles/', '');
     userRoleAssignments = userRoleAssignments.filter((a) => a.id !== id);
     return NextResponse.json({ success: true });
   }

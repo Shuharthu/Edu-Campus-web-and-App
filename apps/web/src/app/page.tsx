@@ -239,35 +239,143 @@ export default function WebsiteHomePage() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden px-16 py-48 sm:py-64 sm:px-24 text-center">
-        <div className="mx-auto max-w-4xl space-y-20">
-          <Badge tone="success" className="px-12 py-4 text-xs">
-            Multi-Campus University Operating System
-          </Badge>
-          <h1 className="heading-2 sm:text-5xl font-bold tracking-tight text-[var(--se-text-primary)]">
-            One Unified Platform for Campuses, Academics & Student Life
-          </h1>
-          <p className="body-4 mx-auto max-w-2xl text-[var(--se-text-secondary)]">
-            Connected multi-tenant infrastructure powered by Supabase PostgreSQL. Centralized attendance, timetable automation, grading, and secure role-based access.
-          </p>
+      {/* Hero Section — Split Modern Layout with Campus Imagery (Reference UI Aligned) */}
+      <section className="relative overflow-hidden px-16 pt-32 pb-48 sm:pt-48 sm:pb-64 sm:px-24">
+        {/* Ambient background illumination */}
+        <div className="pointer-events-none absolute -top-96 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-tr from-teal-500/10 via-emerald-500/5 to-cyan-500/10 blur-3xl rounded-full -z-10" />
+        <div className="pointer-events-none absolute top-1/3 -right-64 w-[500px] h-[500px] bg-teal-500/5 blur-3xl rounded-full -z-10" />
 
-          <div className="flex flex-wrap items-center justify-center gap-12 pt-12">
-            <Button
-              size="lg"
-              onClick={() => router.push('/sign-in')}
-              className="flex items-center gap-8 bg-teal-500 hover:bg-teal-600 text-slate-950 font-semibold"
-            >
-              Sign In to Workspace <ArrowRight size={18} />
-            </Button>
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={() => router.push('/sign-in?mode=signup')}
-              className="flex items-center gap-8"
-            >
-              <UserPlus size={18} /> Register Account
-            </Button>
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-32 lg:gap-40 items-center">
+            
+            {/* Left Column: Value Proposition, Headlines & CTAs */}
+            <div className="lg:col-span-7 space-y-20 text-left">
+              {/* Category Pill */}
+              <div className="inline-flex items-center gap-8 rounded-full border border-teal-500/30 bg-teal-500/10 px-12 py-6 text-xs font-medium text-teal-300">
+                <span className="flex h-8 w-8 rounded-full bg-teal-400 animate-pulse" />
+                Multi-Campus University Operating System
+              </div>
+
+              {/* Main Headline with skill-compliant text gradient */}
+              <h1 className="heading-1 text-3xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-slate-400 dark:from-white dark:to-slate-400">
+                One Unified Platform for Campuses, Academics & Student Life
+              </h1>
+
+              {/* Subheadline */}
+              <p className="body-2 text-base sm:text-lg text-[var(--se-text-secondary)] max-w-xl leading-relaxed">
+                Connected multi-tenant infrastructure powered by Supabase PostgreSQL. Centralized attendance, timetable automation, grading, and secure role-based access.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap items-center gap-12 pt-8">
+                <Button
+                  size="lg"
+                  onClick={() => router.push('/sign-in')}
+                  className="flex items-center gap-8 bg-teal-500 hover:bg-teal-600 text-slate-950 font-semibold shadow-lg shadow-teal-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  Sign In to Workspace <ArrowRight size={18} weight="bold" />
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  onClick={() => router.push('/sign-in?mode=signup')}
+                  className="flex items-center gap-8 border border-[var(--se-border)] hover:bg-[var(--se-bg-elevated)] transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <UserPlus size={18} weight="bold" /> Register Account
+                </Button>
+              </div>
+
+              {/* Quick Trust / Institutional Metrics Strip */}
+              <div className="pt-16 border-t border-[var(--se-border)] grid grid-cols-3 gap-16 max-w-lg">
+                <div>
+                  <div className="text-xl sm:text-2xl font-semibold text-[var(--se-text-primary)]">600+</div>
+                  <div className="text-xs text-[var(--se-text-secondary)]">Enrolled Students</div>
+                </div>
+                <div>
+                  <div className="text-xl sm:text-2xl font-semibold text-[var(--se-text-primary)]">14</div>
+                  <div className="text-xs text-[var(--se-text-secondary)]">Departments</div>
+                </div>
+                <div>
+                  <div className="text-xl sm:text-2xl font-semibold text-teal-400">100%</div>
+                  <div className="text-xs text-[var(--se-text-secondary)]">Conflict-Free Timetables</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Campus Featured Visual with Floating Cards (Reference UI Aligned) */}
+            <div className="lg:col-span-5 relative">
+              {/* Decorative Backdrop Glow Shape */}
+              <div className="absolute -inset-4 rounded-[36px] bg-gradient-to-tr from-teal-500/20 via-emerald-500/10 to-transparent blur-xl -z-10" />
+
+              {/* Main Image Frame Container */}
+              <div className="relative overflow-hidden rounded-[28px] border border-white/15 dark:border-white/10 bg-[var(--se-bg-card)] shadow-2xl transition-transform hover:scale-[1.01] duration-500">
+                <img
+                  src="/images/campus-hero.jpg"
+                  alt="Modern university campus building with landscaped entrance"
+                  className="w-full h-80 sm:h-96 lg:h-[420px] object-cover"
+                />
+
+                {/* Subtle gradient overlay for contrast */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-slate-950/30 pointer-events-none" />
+
+                {/* Top Floating Badge: Campus Status */}
+                <div className="absolute top-16 left-16 right-16 flex items-center justify-between pointer-events-none">
+                  <div className="inline-flex items-center gap-8 rounded-full bg-slate-950/80 backdrop-blur-md border border-white/15 px-12 py-6 text-xs text-white shadow-lg">
+                    <span className="flex h-8 w-8 rounded-full bg-emerald-400 shadow-sm shadow-emerald-400" />
+                    <span className="font-semibold">Main Campus</span>
+                    <span className="text-slate-400">• Operational</span>
+                  </div>
+                  <div className="rounded-full bg-slate-950/70 backdrop-blur-md border border-white/10 px-10 py-4 text-[11px] font-medium text-slate-300">
+                    UTC Timezone
+                  </div>
+                </div>
+
+                {/* Bottom Floating Info Overlay: Facility Metrics */}
+                <div className="absolute bottom-16 left-16 right-16 rounded-2xl bg-slate-950/85 backdrop-blur-lg border border-white/15 p-16 text-white shadow-2xl">
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-8">
+                      <div className="p-6 rounded-lg bg-teal-500/20 text-teal-300 border border-teal-500/30">
+                        <Buildings size={18} weight="bold" />
+                      </div>
+                      <div>
+                        <div className="text-xs font-semibold leading-tight">Central Academic Complex</div>
+                        <div className="text-[11px] text-slate-400">100 University Boulevard</div>
+                      </div>
+                    </div>
+                    <span className="text-[11px] font-semibold text-teal-300 bg-teal-500/10 border border-teal-500/30 rounded-md px-8 py-2">
+                      Live Sync
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/10 text-center">
+                    <div>
+                      <div className="text-sm font-semibold text-white">64</div>
+                      <div className="text-[10px] text-slate-400 uppercase tracking-wider">Labs & Rooms</div>
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-white">28</div>
+                      <div className="text-[10px] text-slate-400 uppercase tracking-wider">Programs</div>
+                    </div>
+                    <div>
+                      <div className="text-sm font-semibold text-teal-300">647</div>
+                      <div className="text-[10px] text-slate-400 uppercase tracking-wider">Enrolled</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Bottom Badge Accent */}
+              <div className="absolute -bottom-16 -right-12 hidden sm:flex items-center gap-8 rounded-xl bg-[var(--se-bg-card)]/90 backdrop-blur-md border border-teal-500/40 p-12 shadow-xl z-20">
+                <div className="p-6 rounded-lg bg-teal-500/20 text-teal-400">
+                  <ShieldCheck size={20} weight="bold" />
+                </div>
+                <div>
+                  <div className="text-xs font-semibold text-[var(--se-text-primary)]">PostgreSQL Active</div>
+                  <div className="text-[11px] text-[var(--se-text-secondary)]">Multi-Tenant Tenancy</div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

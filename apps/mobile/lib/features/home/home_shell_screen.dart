@@ -22,6 +22,8 @@ import '../settings/notification_preferences_screen.dart';
 import '../timetable/timetable_screen.dart';
 import '../library/library_screen.dart';
 import '../operations/campus_operations_screen.dart';
+import '../operations/user_approvals_screen.dart';
+import '../operations/campus_hierarchy_screen.dart';
 import '../career/career_screen.dart';
 import '../assistant/smart_assistant_screen.dart';
 import '../assistant/study_planner_screen.dart';
@@ -447,6 +449,102 @@ class _HomeShellScreenState extends ConsumerState<HomeShellScreen> {
                                   const SizedBox(height: AppSpacing.s2),
                                   Text(
                                     'Hostel room pass, live bus tracker & tickets',
+                                    style: AppTextStyles.caption2.copyWith(
+                                      color: AppColors.neutral500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            PhosphorIcons.caretRight(),
+                            size: 18,
+                            color: AppColors.neutral500,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.s12),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const UserApprovalsScreen(),
+                        ),
+                      );
+                    },
+                    child: AppCard(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                PhosphorIcons.userCheck(),
+                                color: AppColors.teal,
+                                size: 24,
+                              ),
+                              const SizedBox(width: AppSpacing.s12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'User Registration Approvals',
+                                    style: AppTextStyles.title3,
+                                  ),
+                                  const SizedBox(height: AppSpacing.s2),
+                                  Text(
+                                    'Review, accept or reject pending accounts',
+                                    style: AppTextStyles.caption2.copyWith(
+                                      color: AppColors.neutral500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                          Icon(
+                            PhosphorIcons.caretRight(),
+                            size: 18,
+                            color: AppColors.neutral500,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.s12),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => const CampusHierarchyScreen(),
+                        ),
+                      );
+                    },
+                    child: AppCard(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                PhosphorIcons.treeStructure(),
+                                color: AppColors.brightTeal,
+                                size: 24,
+                              ),
+                              const SizedBox(width: AppSpacing.s12),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Campus Hierarchy & Facilities',
+                                    style: AppTextStyles.title3,
+                                  ),
+                                  const SizedBox(height: AppSpacing.s2),
+                                  Text(
+                                    'Multi-campus branches, classrooms & rooms',
                                     style: AppTextStyles.caption2.copyWith(
                                       color: AppColors.neutral500,
                                     ),

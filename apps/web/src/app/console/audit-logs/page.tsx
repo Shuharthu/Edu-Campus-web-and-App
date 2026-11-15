@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ClockCounterClockwise, DownloadSimple, MagnifyingGlass } from '@phosphor-icons/react';
 import { Badge, Button, Card, EmptyState, Input, Skeleton } from '@/components/ui/primitives';
-import { useAuth } from '@/lib/auth-context';
+import { useAuth, getApiBaseUrl } from '@/lib/auth-context';
 
 interface AuditItem {
   id: string;
@@ -43,7 +43,7 @@ export default function AuditLogsPage() {
   });
 
   async function handleExportCsv() {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000/api/v1';
+    const baseUrl = getApiBaseUrl();
     const res = await fetch(`${baseUrl}/audit-logs/export.csv`, {
       headers: token ? { Authorization: `Bearer ${token}` } : {},
     });

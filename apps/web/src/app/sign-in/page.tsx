@@ -295,6 +295,7 @@ function SignInContent() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="name@university.edu"
+                    autoComplete="off"
                   />
                 </div>
 
@@ -311,6 +312,7 @@ function SignInContent() {
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Enter your password"
                       className="pr-48"
+                      autoComplete="new-password"
                     />
                     <button
                       type="button"

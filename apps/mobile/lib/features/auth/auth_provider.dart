@@ -85,86 +85,109 @@ class AuthNotifier extends StateNotifier<AuthState> {
     required String password,
   }) async {
     state = state.copyWith(isLoading: true, errorMessage: null);
-    try {
-      final dio = Dio(BaseOptions(
-        baseUrl: _flavor.apiBaseUrl,
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-        headers: {'Content-Type': 'application/json'},
-      ));
 
-      final response = await dio.post(
-        '/auth/login',
-        data: {
-          'email': email.trim().toLowerCase(),
-          'password': password,
-          'platform': 'mobile',
-          'deviceName': 'Android Client',
-        },
-      );
+    final candidateUrls = [
+      _flavor.apiBaseUrl,
+      if (_flavor.apiBaseUrl != 'http://10.0.2.2:4000/api/v1') 'http://10.0.2.2:4000/api/v1',
+      if (_flavor.apiBaseUrl != 'http://192.168.50.87:4000/api/v1') 'http://192.168.50.87:4000/api/v1',
+    ];
 
-      final data = response.data as Map<String, dynamic>;
-      final status = data['status'] as String?;
+    DioException? lastDioError;
 
-      if (status == 'AUTHENTICATED') {
-        final accessToken = data['accessToken'] as String;
-        final refreshToken = data['refreshToken'] as String?;
-        final activeRoleData = data['activeRole'] as Map<String, dynamic>?;
+    for (final url in candidateUrls) {
+      try {
+        final dio = Dio(BaseOptions(
+          baseUrl: url,
+          connectTimeout: const Duration(seconds: 4),
+          receiveTimeout: const Duration(seconds: 6),
+          headers: {'Content-Type': 'application/json'},
+        ));
 
-        await _storage.write(key: 'access_token', value: accessToken);
-        if (refreshToken != null) {
-          await _storage.write(key: 'refresh_token', value: refreshToken);
+        final response = await dio.post(
+          '/auth/login',
+          data: {
+            'email': email.trim().toLowerCase(),
+            'password': password,
+            'platform': 'mobile',
+            'deviceName': 'Android Client',
+          },
+        );
+
+        final data = response.data as Map<String, dynamic>;
+        final status = data['status'] as String?;
+
+        if (status == 'AUTHENTICATED') {
+          final accessToken = data['accessToken'] as String;
+          final refreshToken = data['refreshToken'] as String?;
+          final activeRoleData = data['activeRole'] as Map<String, dynamic>?;
+
+          await _storage.write(key: 'access_token', value: accessToken);
+          if (refreshToken != null) {
+            await _storage.write(key: 'refresh_token', value: refreshToken);
+          }
+
+          final roleItem = activeRoleData != null
+              ? RoleAssignmentItem(
+                  id: activeRoleData['assignmentId'] ?? 'a-1',
+                  roleSlug: activeRoleData['slug'] ?? 'admin',
+                  roleName: activeRoleData['name'] ?? 'Admin',
+                  roleTier: activeRoleData['tier'] ?? 'ADMIN',
+                  scopeType: activeRoleData['scopeType'] ?? 'institution',
+                )
+              : const RoleAssignmentItem(
+                  id: 'default',
+                  roleSlug: 'admin',
+                  roleName: 'Admin',
+                  roleTier: 'ADMIN',
+                  scopeType: 'institution',
+                );
+
+          state = state.copyWith(
+            isAuthenticated: true,
+            isLoading: false,
+            accessToken: accessToken,
+            email: email.trim(),
+            fullName: activeRoleData?['name'] != null ? '${activeRoleData!['name']} Account' : email.split('@').first,
+            activeRole: roleItem,
+            assignments: [roleItem],
+            errorMessage: null,
+          );
+          return true;
         }
 
-        final roleItem = activeRoleData != null
-            ? RoleAssignmentItem(
-                id: activeRoleData['assignmentId'] ?? 'a-1',
-                roleSlug: activeRoleData['slug'] ?? 'student',
-                roleName: activeRoleData['name'] ?? 'Student',
-                roleTier: activeRoleData['tier'] ?? 'STUDENT',
-                scopeType: activeRoleData['scopeType'] ?? 'own',
-              )
-            : const RoleAssignmentItem(
-                id: 'default',
-                roleSlug: 'student',
-                roleName: 'Student',
-                roleTier: 'STUDENT',
-                scopeType: 'own',
-              );
-
-        state = state.copyWith(
-          isAuthenticated: true,
-          isLoading: false,
-          accessToken: accessToken,
-          email: email.trim(),
-          fullName: activeRoleData?['name'] != null ? '${activeRoleData!['name']} Account' : email.split('@').first,
-          activeRole: roleItem,
-          assignments: [roleItem],
-          errorMessage: null,
-        );
-        return true;
+        if (status == 'MFA_REQUIRED') {
+          state = state.copyWith(
+            isLoading: false,
+            mfaChallengeToken: data['mfaToken'] as String?,
+            email: email.trim(),
+            errorMessage: 'MFA verification required.',
+          );
+          return false;
+        }
+      } on DioException catch (e) {
+        lastDioError = e;
+        if (e.response != null) {
+          break;
+        }
+        continue;
+      } catch (e) {
+        state = state.copyWith(isLoading: false, errorMessage: e.toString());
+        return false;
       }
-
-      state = state.copyWith(
-        isLoading: false,
-        errorMessage: 'Authentication challenge required.',
-      );
-      return false;
-    } on DioException catch (e) {
-      String msg = 'Invalid email or password.';
-      if (e.response != null && e.response?.data is Map) {
-        final resData = e.response!.data as Map;
-        msg = resData['message']?.toString() ?? msg;
-      } else if (e.type == DioExceptionType.connectionTimeout ||
-                 e.type == DioExceptionType.connectionError) {
-        msg = 'Unable to connect to server at ${_flavor.apiBaseUrl}. Please check network connection.';
-      }
-      state = state.copyWith(isLoading: false, errorMessage: msg);
-      return false;
-    } catch (e) {
-      state = state.copyWith(isLoading: false, errorMessage: e.toString());
-      return false;
     }
+
+    String msg = 'Invalid email or password.';
+    if (lastDioError != null) {
+      if (lastDioError.response != null && lastDioError.response?.data is Map) {
+        final resData = lastDioError.response!.data as Map;
+        msg = resData['message']?.toString() ?? msg;
+      } else if (lastDioError.type == DioExceptionType.connectionTimeout ||
+                 lastDioError.type == DioExceptionType.connectionError) {
+        msg = 'Unable to connect to backend at ${_flavor.apiBaseUrl}. Please ensure API is running on port 4000 and mobile device is on same network.';
+      }
+    }
+    state = state.copyWith(isLoading: false, errorMessage: msg);
+    return false;
   }
 
   Future<Map<String, dynamic>> register({
@@ -253,6 +276,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
 }
 
 final flavorProvider = Provider<FlavorConfig>((_) => FlavorConfig.dev);
+final customApiBaseUrlProvider = StateProvider<String>((_) => 'http://192.168.50.87:4000/api/v1');
 final secureStorageProvider = Provider<FlutterSecureStorage>((_) => const FlutterSecureStorage());
 final localAuthProvider = Provider<LocalAuthentication>((_) => LocalAuthentication());
 final themeModeProvider = StateProvider<ThemeMode>((_) => ThemeMode.light);

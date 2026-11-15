@@ -15,8 +15,8 @@ class FlavorConfig {
 
   static const dev = FlavorConfig(
     flavor: AppFlavor.dev,
-    apiBaseUrl: 'http://10.0.2.2:4000/api/v1',
-    wsUrl: 'ws://10.0.2.2:4000/ws',
+    apiBaseUrl: 'http://192.168.50.87:4000/api/v1',
+    wsUrl: 'ws://192.168.50.87:4000/ws',
     oidcRedirectUri: 'smartedu.dev://auth/callback',
   );
 
@@ -29,8 +29,8 @@ class FlavorConfig {
 
   static const production = FlavorConfig(
     flavor: AppFlavor.production,
-    apiBaseUrl: 'https://api.{{institution_domain}}/api/v1',
-    wsUrl: 'wss://api.{{institution_domain}}/ws',
+    apiBaseUrl: 'http://192.168.50.87:4000/api/v1',
+    wsUrl: 'ws://192.168.50.87:4000/ws',
     oidcRedirectUri: 'smartedu://auth/callback',
   );
 }

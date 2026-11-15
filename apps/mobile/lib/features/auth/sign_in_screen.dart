@@ -185,10 +185,76 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
     }
   }
 
+  void _showServerConfigDialog(String currentUrl) {
+    final controller = TextEditingController(text: currentUrl);
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadii.r16)),
+        title: const Text('Backend API Server', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Specify your PC local IP address or backend endpoint:',
+              style: TextStyle(fontSize: 12),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              controller: controller,
+              style: const TextStyle(fontSize: 13),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                isDense: true,
+                hintText: 'http://192.168.x.x:4000/api/v1',
+              ),
+            ),
+            const SizedBox(height: 12),
+            const Text('Presets:', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 6),
+            Wrap(
+              spacing: 6,
+              runSpacing: 6,
+              children: [
+                ActionChip(
+                  label: const Text('Wi-Fi LAN (192.168.50.87)', style: TextStyle(fontSize: 11)),
+                  onPressed: () => controller.text = 'http://192.168.50.87:4000/api/v1',
+                ),
+                ActionChip(
+                  label: const Text('Emulator (10.0.2.2)', style: TextStyle(fontSize: 11)),
+                  onPressed: () => controller.text = 'http://10.0.2.2:4000/api/v1',
+                ),
+                ActionChip(
+                  label: const Text('Localhost (localhost:4000)', style: TextStyle(fontSize: 11)),
+                  onPressed: () => controller.text = 'http://localhost:4000/api/v1',
+                ),
+              ],
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+          ElevatedButton(
+            onPressed: () {
+              final newUrl = controller.text.trim();
+              if (newUrl.isNotEmpty) {
+                ref.read(customApiBaseUrlProvider.notifier).state = newUrl;
+              }
+              Navigator.pop(ctx);
+            },
+            child: const Text('Save & Apply'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final authState = ref.watch(authProvider);
+    final currentServerUrl = ref.watch(customApiBaseUrlProvider);
 
     return Scaffold(
       body: SafeArea(
@@ -357,6 +423,30 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                     child: Text(
                       "Don't have an approved account? Create account →",
                       style: AppTextStyles.body6.copyWith(color: AppColors.teal),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: AppSpacing.s8),
+                Center(
+                  child: GestureDetector(
+                    onTap: () => _showServerConfigDialog(currentServerUrl),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          PhosphorIconsRegular.globe,
+                          size: 14,
+                          color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                        ),
+                        const SizedBox(width: AppSpacing.s4),
+                        Text(
+                          'API Server: $currentServerUrl',
+                          style: AppTextStyles.caption5.copyWith(
+                            color: isDark ? AppColors.darkTextMuted : AppColors.lightTextMuted,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

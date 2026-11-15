@@ -375,16 +375,16 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                       AppInput(
                         label: 'Full Name',
                         controller: _nameController,
-                        placeholder: 'e.g. Tariq Ahmed',
+                        hintText: 'e.g. Tariq Ahmed',
                       ),
-                      const SizedBox(height: AppSpacing.s14),
+                      const SizedBox(height: AppSpacing.s12),
                       AppInput(
                         label: 'University Email',
                         controller: _signUpEmailController,
-                        placeholder: 'e.g. name@university.edu',
+                        hintText: 'e.g. name@university.edu',
                         keyboardType: TextInputType.emailAddress,
                       ),
-                      const SizedBox(height: AppSpacing.s14),
+                      const SizedBox(height: AppSpacing.s12),
 
                       Text(
                         'Role',
@@ -404,7 +404,7 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: AppSpacing.s14),
+                      const SizedBox(height: AppSpacing.s12),
 
                       Text(
                         'Department',
@@ -439,12 +439,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.s14),
+                      const SizedBox(height: AppSpacing.s12),
 
                       AppInput(
                         label: 'Password',
                         controller: _signUpPasswordController,
-                        placeholder: 'Create password (min 8 chars)',
+                        hintText: 'Create password (min 8 chars)',
                         obscureText: _obscureSignUpPassword,
                         suffixIcon: IconButton(
                           onPressed: () => setState(() => _obscureSignUpPassword = !_obscureSignUpPassword),
@@ -455,12 +455,12 @@ class _SignInScreenState extends ConsumerState<SignInScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.s14),
+                      const SizedBox(height: AppSpacing.s12),
 
                       AppInput(
                         label: 'Confirm Password',
                         controller: _confirmPasswordController,
-                        placeholder: 'Repeat your password',
+                        hintText: 'Repeat your password',
                         obscureText: _obscureConfirmPassword,
                         suffixIcon: IconButton(
                           onPressed: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),

@@ -34,7 +34,7 @@ class _CampusHierarchyScreenState extends ConsumerState<CampusHierarchyScreen> {
     });
 
     final authState = ref.read(authProvider);
-    final flavor = ref.read(appFlavorProvider);
+    final flavor = ref.read(flavorProvider);
 
     try {
       final dio = Dio(BaseOptions(
@@ -135,32 +135,32 @@ class _CampusHierarchyScreenState extends ConsumerState<CampusHierarchyScreen> {
               AppInput(
                 controller: nameCtrl,
                 label: 'Campus Name',
-                placeholder: 'e.g. West Engineering Campus',
+                hintText: 'e.g. West Engineering Campus',
               ),
               const SizedBox(height: AppSpacing.s12),
               AppInput(
                 controller: codeCtrl,
                 label: 'Campus Code',
-                placeholder: 'e.g. WEST',
+                hintText: 'e.g. WEST',
               ),
               const SizedBox(height: AppSpacing.s12),
               AppInput(
                 controller: addressCtrl,
                 label: 'Physical Address',
-                placeholder: 'e.g. 500 Technology Blvd',
+                hintText: 'e.g. 500 Technology Blvd',
               ),
               const SizedBox(height: AppSpacing.s12),
               AppInput(
                 controller: timezoneCtrl,
                 label: 'Operating Timezone',
-                placeholder: 'e.g. UTC, America/New_York',
+                hintText: 'e.g. UTC, America/New_York',
               ),
               const SizedBox(height: AppSpacing.s20),
               AppButton(
                 label: 'Create Campus Branch',
                 variant: AppButtonVariant.primary,
                 size: AppButtonSize.medium,
-                isFullWidth: true,
+                fullWidth: true,
                 onPressed: () async {
                   if (nameCtrl.text.isEmpty || codeCtrl.text.isEmpty) {
                     return;
@@ -168,7 +168,7 @@ class _CampusHierarchyScreenState extends ConsumerState<CampusHierarchyScreen> {
                   Navigator.of(ctx).pop();
 
                   final authState = ref.read(authProvider);
-                  final flavor = ref.read(appFlavorProvider);
+                  final flavor = ref.read(flavorProvider);
 
                   try {
                     final dio = Dio(BaseOptions(

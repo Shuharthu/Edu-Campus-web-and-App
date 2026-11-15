@@ -33,7 +33,7 @@ class _UserApprovalsScreenState extends ConsumerState<UserApprovalsScreen> {
     });
 
     final authState = ref.read(authProvider);
-    final flavor = ref.read(appFlavorProvider);
+    final flavor = ref.read(flavorProvider);
 
     try {
       final dio = Dio(BaseOptions(
@@ -91,7 +91,7 @@ class _UserApprovalsScreenState extends ConsumerState<UserApprovalsScreen> {
 
   Future<void> _approve(String id, String name) async {
     final authState = ref.read(authProvider);
-    final flavor = ref.read(appFlavorProvider);
+    final flavor = ref.read(flavorProvider);
 
     try {
       final dio = Dio(BaseOptions(
@@ -156,7 +156,7 @@ class _UserApprovalsScreenState extends ConsumerState<UserApprovalsScreen> {
     if (confirmed != true) return;
 
     final authState = ref.read(authProvider);
-    final flavor = ref.read(appFlavorProvider);
+    final flavor = ref.read(flavorProvider);
 
     try {
       final dio = Dio(BaseOptions(

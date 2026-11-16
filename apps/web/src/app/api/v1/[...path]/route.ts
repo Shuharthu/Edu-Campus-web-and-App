@@ -354,6 +354,26 @@ export async function POST(
         });
       }
 
+      // Check if user is an approved student/user from Supabase
+      const userCheck = await fetchSupabaseRpc<{ found: boolean; id: string; fullName: string; email: string; isActive: boolean }>('get_user_for_login', { p_email: email });
+      if (userCheck && userCheck.found && userCheck.isActive) {
+        return NextResponse.json({
+          status: 'AUTHENTICATED',
+          accessToken: MOCK_TOKEN,
+          refreshToken: 'refresh-' + Date.now(),
+          expiresIn: '15m',
+          deviceId: 'client-device',
+          activeRole: {
+            assignmentId: 'asgn-' + userCheck.id,
+            roleId: '6b49459e-f23d-4957-8dae-2334ad37e2c3',
+            slug: 'student',
+            name: userCheck.fullName || 'Student',
+            tier: 'STUDENT',
+            scopeType: 'campus',
+          },
+        });
+      }
+
       return NextResponse.json(
         { message: 'Invalid email or password' },
         { status: 401 },
@@ -362,15 +382,27 @@ export async function POST(
 
     // /api/v1/auth/register
     if (subpath === 'auth/register') {
+      const fullName = String(body.fullName || 'New Applicant').trim();
+      const email = String(body.email || 'applicant@university.edu').trim().toLowerCase();
+      const roleSlug = String(body.roleSlug || 'student');
+      const departmentCode = String(body.departmentCode || 'CSE');
+
+      await fetchSupabaseRpc('create_registration_request', {
+        p_full_name: fullName,
+        p_email: email,
+        p_role_slug: roleSlug,
+        p_department_code: departmentCode,
+      });
+
       const newReg = {
         id: 'reg-' + Date.now(),
         userId: 'usr-' + Date.now(),
-        fullName: String(body.fullName || 'New Applicant'),
-        email: String(body.email || 'applicant@university.edu'),
-        roleName: String(body.roleSlug || 'student').toUpperCase(),
-        roleSlug: String(body.roleSlug || 'student'),
-        departmentCode: String(body.departmentCode || 'CSE'),
-        status: 'PENDING_APPROVAL',
+        fullName,
+        email,
+        roleName: roleSlug.toUpperCase(),
+        roleSlug,
+        departmentCode,
+        status: 'PENDING',
         submittedAt: new Date().toISOString(),
       };
       pendingRegistrations.unshift(newReg);

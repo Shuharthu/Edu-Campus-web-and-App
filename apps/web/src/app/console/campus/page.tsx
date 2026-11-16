@@ -10,7 +10,6 @@ import {
   MagnifyingGlass,
   ArrowSquareOut,
 } from '@phosphor-icons/react';
-import { ConsoleShell } from '@/components/console-shell';
 import { Badge, Button, Card, Input } from '@/components/ui/primitives';
 import { useAuth } from '@/lib/auth-context';
 
@@ -121,8 +120,7 @@ export default function CampusManagementPage() {
   });
 
   return (
-    <ConsoleShell>
-      <div className="space-y-24 p-24">
+    <div className="space-y-24">
         {/* Header */}
         <div className="flex flex-col gap-12 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -351,6 +349,5 @@ export default function CampusManagementPage() {
           </div>
         )}
       </div>
-    </ConsoleShell>
   );
 }

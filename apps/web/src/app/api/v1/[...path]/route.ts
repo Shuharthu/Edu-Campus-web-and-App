@@ -192,41 +192,7 @@ const campuses = [
   },
 ];
 
-let pendingRegistrations = [
-  {
-    id: 'reg-001',
-    userId: 'usr-101',
-    fullName: 'Dr. Sarah Connor',
-    email: 's.connor@university.edu',
-    roleName: 'Faculty',
-    roleSlug: 'faculty',
-    departmentCode: 'CSE',
-    status: 'PENDING_APPROVAL',
-    submittedAt: '2026-11-15T08:30:00.000Z',
-  },
-  {
-    id: 'reg-002',
-    userId: 'usr-102',
-    fullName: 'Alex Vance',
-    email: 'alex.vance@university.edu',
-    roleName: 'Student',
-    roleSlug: 'student',
-    departmentCode: 'EEE',
-    status: 'PENDING_APPROVAL',
-    submittedAt: '2026-11-15T09:15:00.000Z',
-  },
-  {
-    id: 'reg-003',
-    userId: 'usr-103',
-    fullName: 'Prof. David Marcus',
-    email: 'd.marcus@university.edu',
-    roleName: 'Department Head',
-    roleSlug: 'dept_head',
-    departmentCode: 'BBA',
-    status: 'PENDING_APPROVAL',
-    submittedAt: '2026-11-15T10:00:00.000Z',
-  },
-];
+let pendingRegistrations: Array<Record<string, unknown>> = [];
 
 const featureFlags = [
   { id: 'ff-1', key: 'multi_campus', enabled: true, description: 'Support multiple institutional campuses' },

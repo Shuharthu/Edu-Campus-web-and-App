@@ -7,6 +7,30 @@ const ADMIN_PASS = 'Admin#2026';
 const MOCK_TOKEN =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZjc2ZmUzNy0wYjU4LTQyMzktYmQ3Yy0zMjcwZTU4ZGRlNGEiLCJpbnN0aXR1dGlvbklkIjoiMGM4NTI1NjctMGIxYy00MGIzLWI1ZTctYmM3ZmJmZDI3ZGNlIiwiYXNzaWdubWVudElkIjoiYTdiZTIxNWItODU3Yy00NjQ2LThlY2MtNzU4MmNlMmY2NTFhIiwiZGV2aWNlSWQiOiJ2ZXJjZWwtY29uc29sZSIsImlhdCI6MTc5NDczMTE2OCwiZXhwIjoxNzk0NzMyMDY4fQ.3IgbiPjv-ptBvtxBaDnDX_dg0Zo6u23RWDwYMj0Ivyg';
 
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://vclequhmjpzxhopxuebs.supabase.co';
+const SUPABASE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY || 'sb_publishable_F7yCUyQW91hOcZpqVX638Q_c8pNMOAy';
+
+async function fetchSupabaseRpc<T>(fnName: string, body?: unknown): Promise<T | null> {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fnName}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+      },
+      body: body !== undefined ? JSON.stringify(body) : JSON.stringify({}),
+      cache: 'no-store',
+    });
+    if (res.ok) {
+      return (await res.json()) as T;
+    }
+  } catch (err) {
+    console.error(`Error calling Supabase RPC ${fnName}:`, err);
+  }
+  return null;
+}
+
 let institutionData = {
   id: '0c852567-0b1c-40b3-b5e7-bc7fbfd27dce',
   name: 'Smart EDU Flagship University',
@@ -364,6 +388,7 @@ export async function POST(
     // /api/v1/auth/approve-registration/:id
     if (subpath.startsWith('auth/approve-registration/')) {
       const id = subpath.replace('auth/approve-registration/', '');
+      await fetchSupabaseRpc('approve_registration', { request_id: id });
       pendingRegistrations = pendingRegistrations.filter((r) => r.id !== id && r.userId !== id);
       return NextResponse.json({ success: true, message: `Registration ${id} approved successfully` });
     }
@@ -371,6 +396,7 @@ export async function POST(
     // /api/v1/auth/reject-registration/:id
     if (subpath.startsWith('auth/reject-registration/')) {
       const id = subpath.replace('auth/reject-registration/', '');
+      await fetchSupabaseRpc('reject_registration', { request_id: id });
       pendingRegistrations = pendingRegistrations.filter((r) => r.id !== id && r.userId !== id);
       return NextResponse.json({ success: true, message: `Registration ${id} rejected` });
     }
@@ -500,6 +526,9 @@ export async function GET(
 
   // /api/v1/admin/dashboard-summary or /api/v1/dashboard/summary
   if (subpath === 'admin/dashboard-summary' || subpath === 'dashboard/summary') {
+    const remote = await fetchSupabaseRpc<Array<Record<string, unknown>>>('get_pending_registrations');
+    const pendingCount = remote && Array.isArray(remote) ? remote.length : pendingRegistrations.length;
+
     return NextResponse.json({
       roleTier: 'ADMIN',
       roleSlug: 'admin',
@@ -508,7 +537,7 @@ export async function GET(
       kpis: {
         campuses: campuses.length,
         usersCount: 648,
-        pendingApprovals: pendingRegistrations.length,
+        pendingApprovals: pendingCount,
         enabledFeatures: featureFlags.filter((f) => f.enabled).length,
       },
       recentActivity: [
@@ -539,6 +568,10 @@ export async function GET(
 
   // /api/v1/auth/pending-registrations
   if (subpath === 'auth/pending-registrations') {
+    const remote = await fetchSupabaseRpc<Array<Record<string, unknown>>>('get_pending_registrations');
+    if (remote && Array.isArray(remote) && remote.length > 0) {
+      return NextResponse.json(remote);
+    }
     return NextResponse.json(pendingRegistrations);
   }
 
